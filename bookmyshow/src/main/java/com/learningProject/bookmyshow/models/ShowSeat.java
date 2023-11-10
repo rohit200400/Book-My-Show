@@ -2,7 +2,10 @@ package com.learningProject.bookmyshow.models;
 
 import com.learningProject.bookmyshow.models.constants.BaseModel;
 import com.learningProject.bookmyshow.models.constants.SeatStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 

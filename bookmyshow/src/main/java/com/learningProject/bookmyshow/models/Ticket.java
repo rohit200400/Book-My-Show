@@ -4,7 +4,6 @@ import com.learningProject.bookmyshow.models.constants.BaseModel;
 import com.learningProject.bookmyshow.models.constants.SeatType;
 import com.learningProject.bookmyshow.models.constants.TicketStatus;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +24,7 @@ public class Ticket extends BaseModel {
     private Shows show;
     @Enumerated(EnumType.STRING)
     private TicketStatus ticketStatus;
+
     public Ticket(List<ShowSeat> showSeats, Shows show, User user) {
         this.timeOfBooking = LocalDateTime.now();
         this.showSeats = showSeats;
