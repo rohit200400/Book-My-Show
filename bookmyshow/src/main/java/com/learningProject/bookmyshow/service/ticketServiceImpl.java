@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class IticketService implements ticketService {
+public class ticketServiceImpl implements ticketService {
     @Autowired
     private ShowSeatRepository showSeatRepository;
     @Autowired

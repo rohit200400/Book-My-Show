@@ -1,12 +1,13 @@
 package com.learningProject.bookmyshow.models;
 
 import com.learningProject.bookmyshow.models.constants.BaseModel;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import com.learningProject.bookmyshow.models.constants.Features;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,7 +18,9 @@ public class Shows extends BaseModel {
     private Double SilverSeatPrice;
     private Double GoldSeatPrice;
     private Double PlatinumSeatPrice;
-
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<Features> showFeatures;
     @ManyToOne
     private Movie movie;
     @ManyToOne

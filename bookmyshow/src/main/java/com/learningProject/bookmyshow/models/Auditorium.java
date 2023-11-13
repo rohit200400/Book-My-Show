@@ -5,6 +5,8 @@ import com.learningProject.bookmyshow.models.constants.Features;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class Auditorium extends BaseModel {
     @Enumerated(EnumType.STRING)
     private List<Features> auditoriumFeatures;
 
+    @Cascade(CascadeType.ALL)
     @OneToMany(mappedBy = "auditorium")
     private List<Seat> seats;
 
