@@ -4,9 +4,7 @@ import com.learningProject.bookmyshow.models.constants.BaseModel;
 import com.learningProject.bookmyshow.models.constants.Features;
 import com.learningProject.bookmyshow.models.constants.Languages;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +12,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Movie extends BaseModel {
     private String name;

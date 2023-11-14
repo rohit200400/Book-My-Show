@@ -2,7 +2,8 @@ package com.learningProject.bookmyshow.service;
 
 import com.learningProject.bookmyshow.dto.AuditoriumRequestDto;
 import com.learningProject.bookmyshow.dto.TheaterRequestDto;
-import com.learningProject.bookmyshow.exceptions.GroupNotFoundException;
+import com.learningProject.bookmyshow.exceptions.AuditoriumNotFoundException;
+import com.learningProject.bookmyshow.exceptions.TheatreNotFoundException;
 import com.learningProject.bookmyshow.models.Auditorium;
 import com.learningProject.bookmyshow.models.Seat;
 import com.learningProject.bookmyshow.models.Theatre;
@@ -12,8 +13,11 @@ import com.learningProject.bookmyshow.repository.AuditoriumRepo;
 import com.learningProject.bookmyshow.repository.SeatRepo;
 import com.learningProject.bookmyshow.repository.TheatreRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,23 +77,25 @@ public class RegistrationServiceImpl implements RegistrationService {
             allAudis.add(audi);
         }
         newTheatre.setAuditoriums(allAudis);
-        newTheatre = theatreRepo.save(newTheatre);
+        theatreRepo.save(newTheatre);
     }
 
     @Override
-    public void deregisterTheatre(Integer theaterId) throws GroupNotFoundException {
+    @Transactional
+    public void deregisterTheatre(Integer theaterId) throws TheatreNotFoundException {
         Optional<Theatre> theatre = theatreRepo.findById(theaterId);
         if (theatre.isEmpty()) {
-            throw new GroupNotFoundException("The group ID sent is not valid.");
+            throw new TheatreNotFoundException("The group ID sent is not valid.");
         }
         theatreRepo.deleteById(theaterId);
     }
 
     @Override
-    public Theatre addAuditorium(Integer theaterId, AuditoriumRequestDto auditorium) throws GroupNotFoundException {
+    @Transactional
+    public Theatre addAuditorium(Integer theaterId, AuditoriumRequestDto auditorium) throws TheatreNotFoundException {
         Optional<Theatre> theatre = theatreRepo.findById(theaterId);
         if (theatre.isEmpty()) {
-            throw new GroupNotFoundException("The group ID sent is not valid.");
+            throw new TheatreNotFoundException("The group ID sent is not valid.");
         }
         List<Auditorium> auditoriums = theatre.get().getAuditoriums();
         Auditorium audi = new Auditorium();
@@ -132,5 +138,19 @@ public class RegistrationServiceImpl implements RegistrationService {
         theatre.get().setAuditoriums(auditoriums);
         return theatreRepo.save(theatre.get());
 
+    }
+
+    @Override
+    @Transactional
+    public void removeAuditorium(Integer theaterId, Integer auditoriumId) throws TheatreNotFoundException, AuditoriumNotFoundException {
+        Optional<Theatre> theatre = theatreRepo.findById(theaterId);
+        if (theatre.isEmpty()) {
+            throw new TheatreNotFoundException("The theater ID sent is not valid.");
+        }
+        Optional<Auditorium> auditorium = auditoriumRepo.findById(auditoriumId);
+        if (auditorium.isEmpty()) {
+            throw new AuditoriumNotFoundException("The theater ID sent is not valid.");
+        }
+        auditoriumRepo.deleteById(auditorium.get().getId());
     }
 }

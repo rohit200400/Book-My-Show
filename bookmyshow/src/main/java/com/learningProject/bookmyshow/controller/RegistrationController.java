@@ -2,6 +2,7 @@ package com.learningProject.bookmyshow.controller;
 
 import com.learningProject.bookmyshow.dto.AuditoriumRequestDto;
 import com.learningProject.bookmyshow.dto.TheaterRequestDto;
+import com.learningProject.bookmyshow.exceptions.AuditoriumNotFoundException;
 import com.learningProject.bookmyshow.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,13 @@ public class RegistrationController {
     public ResponseEntity addAuditorium(@RequestBody AuditoriumRequestDto audi, @PathVariable("theaterId") Integer theaterId) throws Exception {
         registrationService.addAuditorium(theaterId, audi);
         return ResponseEntity.ok("Auditorium added to theatre.");
+    }
+
+    @DeleteMapping("/removeAuditorium/{theaterId}/{auditoriumId}")
+    public ResponseEntity removeAuditorium(@PathVariable("theaterId") Integer theaterId,
+                                           @PathVariable("auditoriumId") Integer auditoriumId)
+            throws Exception, AuditoriumNotFoundException {
+        registrationService.removeAuditorium(theaterId, auditoriumId);
+        return ResponseEntity.ok("Removed Auditorium.");
     }
 }
